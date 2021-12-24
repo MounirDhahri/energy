@@ -21,7 +21,7 @@
     "patch-package": "^6.4.7",
     "react": "17.0.2",
     "react-native": "0.66.2",
-    "react-native-config": "https://github.com/artsy/react-native-config.git",
+    "react-native-config": "^1.4.5",
     "react-native-gesture-handler": "^1.10.3",
     "react-native-haptic-feedback": "^1.13.0",
     "react-native-safe-area-context": "^3.3.2",

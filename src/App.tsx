@@ -1,8 +1,9 @@
 import React from "react"
-import { Theme, Flex, Button } from "palette"
+import { Theme, Flex, Button, Text } from "palette"
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator, NativeStackScreenProps } from "@react-navigation/native-stack"
 import { LogBox } from "react-native"
+import Config from "react-native-config"
 
 LogBox.ignoreLogs(["Expected style "])
 
@@ -12,6 +13,8 @@ const HomeScreen: React.FC<HomeNavigationProps> = ({ navigation }) => (
   <Theme>
     <Flex flex={1} justifyContent="center" alignItems="center">
       <Button onPress={() => navigation.navigate("Login")}>Navigate to Login Screen</Button>
+      <Text>{Config.CUSTOM_ENV_VAR}</Text>
+      <Text>{Config.ARTSY_API_CLIENT_KEY}</Text>
     </Flex>
   </Theme>
 )
@@ -35,6 +38,7 @@ export type AppNavigationStack = {
 const Stack = createNativeStackNavigator<AppNavigationStack>()
 
 const App = () => {
+  console.log(Config)
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
