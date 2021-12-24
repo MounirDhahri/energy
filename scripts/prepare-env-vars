@@ -15,8 +15,16 @@ if ! aws s3 cp s3://artsy-citadel/dev/.env.energy .env.shared; then
 fi
 
 if [[ ! -e ".env" ]]; then
-  echo "Initializing .env from from .env.example (for custom configuration)..."
+  echo "Initializing .env from .env.example (for custom configuration)..."
   cat .env.example > .env
 fi
+
+if [[ -e ".env.dev" ]]; then
+  echo "Removing existing .env.dev file"
+  rm .env.dev
+fi
+
+echo "Creating .env.dev from .env and .dev.shared..."
+awk 1 .env.shared .env > .env.dev
 
 echo "Preparing environment variables completed!"
