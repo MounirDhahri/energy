@@ -3,7 +3,7 @@ import { FormikProvider, useFormik, useFormikContext } from "formik"
 import { MainNavigationStack } from "MainNavigationStack"
 import { Box, Button, Flex, Input, Spacer, Text, useColor, useSpace } from "palette"
 import React, { useRef } from "react"
-import { Alert, Platform, ScrollView, Linking, TouchableOpacity, Image } from "react-native"
+import { Alert, Platform, ScrollView, Linking, TouchableOpacity, Image, SafeAreaView } from "react-native"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import * as Yup from "yup"
 
@@ -54,7 +54,7 @@ export const LoginScreenContent: React.FC<LoginScreenProps> = ({}) => {
   }
 
   return (
-    <Flex flex={1} flexGrow={1} backgroundColor="black60">
+    <SafeAreaView style={{ flex: 1, flexGrow: 1, backgroundColor: color("black60") }}>
       <ScrollView
         contentContainerStyle={{ paddingTop: insets.top, paddingHorizontal: space(2) }}
         keyboardShouldPersistTaps="always"
@@ -179,7 +179,7 @@ export const LoginScreenContent: React.FC<LoginScreenProps> = ({}) => {
           </Flex>
         </TouchableOpacity>
       </Flex>
-    </Flex>
+    </SafeAreaView>
   )
 }
 
