@@ -2,29 +2,45 @@ import { action, Action, thunk, Thunk } from "easy-peasy"
 import Config from "react-native-config"
 import { GlobalStoreModel } from "./GlobalStoreModel"
 import { getUserAgent } from "../../helpers/getUserAgent"
+import { stringify } from "qs"
 
 interface AuthModelState {
   userAccessToken: string | null
+  userAccessTokenExpiresIn: string | null
   xAppToken: string | null
   xApptokenExpiresIn: string | null
 }
 
-const authModelState: AuthModelState = {
+const authModelInitialState: AuthModelState = {
   userAccessToken: null,
+  userAccessTokenExpiresIn: null,
   xAppToken: null,
   xApptokenExpiresIn: null,
 }
 export interface AuthModel extends AuthModelState {
   setState: Action<this, Partial<AuthModelState>>
   getXAppToken: Thunk<this, void, {}, GlobalStoreModel, Promise<string>>
-  signInUsingEmail: Action<this, { email: string; password: string }>
+  gravityUnauthenticatedRequest: Thunk<
+    this,
+    {
+      path: string
+      method?: "GET" | "PUT" | "POST" | "DELETE"
+      body?: object
+      headers?: RequestInit["headers"]
+    },
+    {},
+    GlobalStoreModel,
+    ReturnType<typeof fetch>
+  >
+  signInUsingEmail: Thunk<this, { email: string; password: string }>
+  signOut: Thunk<this>
 }
 
 export const AuthModel: AuthModel = {
-  ...authModelState,
+  ...authModelInitialState,
 
   setState: action((state, payload) => Object.assign(state, payload)),
-  signInUsingEmail: action(() => {}),
+
   getXAppToken: thunk(async (actions, _payload, context) => {
     const { xAppToken, xApptokenExpiresIn } = context.getState()
     if (xAppToken && xApptokenExpiresIn && new Date() < new Date(xApptokenExpiresIn)) {
@@ -33,7 +49,7 @@ export const AuthModel: AuthModel = {
 
     const gravityBaseURL = context.getStoreState().config.environment.strings.gravityURL
 
-    const tokenURL = `${gravityBaseURL}/api/v1/xapp_token?${JSON.stringify({
+    const tokenURL = `${gravityBaseURL}/api/v1/xapp_token?${stringify({
       client_id: Config.ARTSY_API_CLIENT_KEY,
       client_secret: Config.ARTSY_API_CLIENT_SECRET,
     })}`
@@ -57,5 +73,74 @@ export const AuthModel: AuthModel = {
     } catch (error) {
       throw new Error("Unable to get x-app-token" + error)
     }
+  }),
+
+  gravityUnauthenticatedRequest: thunk(async (actions, payload, context) => {
+    const gravityBaseURL = context.getStoreState().config.environment.strings.gravityURL
+    const xAppToken = await actions.getXAppToken()
+
+    try {
+      const res = await fetch(`${gravityBaseURL}${payload.path}`, {
+        method: payload.method || "GET",
+        headers: {
+          "X-Xapp-Token": xAppToken,
+          Accept: "application/json",
+          "User-Agent": getUserAgent(),
+          ...payload.headers,
+        },
+        body: payload.body ? JSON.stringify(payload.body) : undefined,
+      })
+      return res
+    } catch (error) {
+      throw error
+    }
+  }),
+
+  signInUsingEmail: thunk(async (actions, { email, password }) => {
+    try {
+      const result = await actions.gravityUnauthenticatedRequest({
+        path: `/oauth2/access_token`,
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {
+          email,
+          oauth_provider: "email",
+          password,
+          grant_type: "credentials",
+          scope: "offline_access",
+          client_id: Config.ARTSY_API_CLIENT_KEY,
+          client_secret: Config.ARTSY_API_CLIENT_SECRET,
+        },
+      })
+      const resJson = await result.json()
+
+      // The user has successfully logged in
+      if (result.status === 201) {
+        const { expires_in, access_token } = resJson
+        actions.setState({
+          userAccessToken: access_token,
+          userAccessTokenExpiresIn: expires_in,
+        })
+        return {
+          success: true,
+        }
+      }
+
+      return {
+        success: false,
+        message: resJson.error_description || "Unable to log in, please try again later",
+      }
+    } catch (error) {
+      return {
+        success: false,
+        message: "Something went wrong",
+      }
+    }
+  }),
+
+  signOut: thunk(async (actions) => {
+    actions.setState(authModelInitialState)
   }),
 }
