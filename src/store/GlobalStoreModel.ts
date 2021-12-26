@@ -1,4 +1,4 @@
-import { AuthModel, getAuthModel } from "./AuthModel"
+import { AuthModel, authModel } from "./AuthModel"
 
 interface GlobalStoreStateModel {
   auth: AuthModel
@@ -7,5 +7,5 @@ interface GlobalStoreStateModel {
 export interface GlobalStoreModel extends GlobalStoreStateModel {}
 
 export const GlobalStoreModel: GlobalStoreModel = {
-  auth: getAuthModel(),
+  auth: authModel,
 }

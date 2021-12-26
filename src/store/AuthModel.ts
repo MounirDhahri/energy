@@ -1,19 +1,18 @@
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { persist } from "easy-peasy"
+import { action, Action } from "easy-peasy"
 
-export interface AuthModel {
+interface AuthModelState {
   userAccessToken: string | null
   xAppToken: string | null
   xApptokenExpiresIn: string | null
 }
 
-const authModel = {
+export interface AuthModel extends AuthModelState {
+  setState: Action<this, Partial<AuthModelState>>
+}
+
+export const authModel: AuthModel = {
   userAccessToken: null,
   xAppToken: null,
   xApptokenExpiresIn: null,
+  setState: action((state, payload) => Object.assign(state, payload)),
 }
-
-export const getAuthModel = () =>
-  persist(authModel, {
-    storage: AsyncStorage,
-  })
