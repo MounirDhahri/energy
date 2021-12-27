@@ -9,7 +9,8 @@
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "setup:artsy": "./scripts/setup-env-for-artsy",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "sync-schema": "curl https://raw.githubusercontent.com/artsy/metaphysics/main/_schemaV2.graphql -o data/schema.graphql; yarn prettier --write --parser graphql data/schema.graphql"
   },
   "dependencies": {
     "@artsy/palette-tokens": "^2.6.0",
