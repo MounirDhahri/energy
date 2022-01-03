@@ -27,7 +27,8 @@ query HomeQuery {
 
 fragment HomeUser_me on Me {
   email
-  name
+  collectorLevel
+  bio
 }
 */
 
@@ -83,7 +84,14 @@ const node: ConcreteRequest = {
             "alias": null,
             "args": null,
             "kind": "ScalarField",
-            "name": "name",
+            "name": "collectorLevel",
+            "storageKey": null
+          },
+          {
+            "alias": null,
+            "args": null,
+            "kind": "ScalarField",
+            "name": "bio",
             "storageKey": null
           },
           {
@@ -99,12 +107,12 @@ const node: ConcreteRequest = {
     ]
   },
   "params": {
-    "cacheID": "4bf44e03b90e2d93f28c27563dc6240a",
+    "cacheID": "d9f9e16bc737497d0eaffcbc9c028fb9",
     "id": null,
     "metadata": {},
     "name": "HomeQuery",
     "operationKind": "query",
-    "text": "query HomeQuery {\n  me {\n    ...HomeUser_me\n    id\n  }\n}\n\nfragment HomeUser_me on Me {\n  email\n  name\n}\n"
+    "text": "query HomeQuery {\n  me {\n    ...HomeUser_me\n    id\n  }\n}\n\nfragment HomeUser_me on Me {\n  email\n  collectorLevel\n  bio\n}\n"
   }
 };
 (node as any).hash = 'b952a95e8a95989cd96c55acf69cdc8f';

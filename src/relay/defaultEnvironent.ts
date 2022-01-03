@@ -1,6 +1,13 @@
 import { Environment, RecordSource, Store } from "relay-runtime"
-import { cacheMiddleware, RelayNetworkLayer } from "react-relay-network-modern/node8"
+import {
+  cacheMiddleware,
+  errorMiddleware,
+  loggerMiddleware,
+  perfMiddleware,
+  RelayNetworkLayer,
+} from "react-relay-network-modern/node8"
 import { metaphysicsUrlMiddleware } from "./middlewares/metaphysicsUrlMiddleware"
+import { authMiddleware } from "./middlewares/authMiddleware"
 
 const network = new RelayNetworkLayer(
   [
@@ -10,6 +17,10 @@ const network = new RelayNetworkLayer(
       ttl: 900000, // 15 minutes
     }),
     metaphysicsUrlMiddleware(),
+    __DEV__ ? loggerMiddleware() : null,
+    __DEV__ ? errorMiddleware() : null,
+    __DEV__ ? perfMiddleware() : null,
+    authMiddleware(),
   ],
   {
     // `noThrow` is currently marked as "experimental" and may be deprecated in the future.
