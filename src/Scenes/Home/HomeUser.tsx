@@ -10,8 +10,6 @@ interface HomeUserProps {
 const HomeUserFragment = graphql`
   fragment HomeUser_me on Me {
     email
-    collectorLevel
-    bio
     name
   }
 `
@@ -25,8 +23,7 @@ export const HomeUser: React.FC<HomeUserProps> = (props) => {
   return (
     <Flex>
       <Text>{me.email}</Text>
-      <Text>{me.collectorLevel}</Text>
-      <Text>{me.bio}</Text>
+      <Text>{me.name}</Text>
     </Flex>
   )
 }
