@@ -200,19 +200,13 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ navigation, route }) =
     initialValues,
     initialErrors: {},
     onSubmit: async ({ email, password }) => {
-      GlobalStore.actions.auth
-        .signInUsingEmail({ email, password })
-        .then((res: { success: boolean; message: string }) => {
-          if (!res.success) {
-            if (res.message) {
-              Alert.alert(res.message)
-            }
-          }
-        })
-        .catch((error: string) => {
-          throw new Error(error)
-        })
-      // const res = await GlobalStore.actions.auth.signInUsingEmail({ email, password })
+      const res = await GlobalStore.actions.auth.signInUsingEmail({ email, password })
+
+      if (!res.success) {
+        if (res.message) {
+          Alert.alert(res.message)
+        }
+      }
     },
     validationSchema: loginSchema,
   })
