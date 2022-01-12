@@ -13,29 +13,20 @@ LogBox.ignoreLogs(["Expected style "])
 
 const AppProviders = ({ children }: { children: ReactNode }) => (
   <GlobalStoreProvider>
-    <RelayEnvironmentProvider environment={defaultEnvironment}>
-      <SafeAreaProvider>
-        <Theme>
+    <Theme>
+      <RelayEnvironmentProvider environment={defaultEnvironment}>
+        <SafeAreaProvider>
           <NavigationContainer>{children}</NavigationContainer>
-        </Theme>
-      </SafeAreaProvider>
-    </RelayEnvironmentProvider>
+        </SafeAreaProvider>
+      </RelayEnvironmentProvider>
+    </Theme>
   </GlobalStoreProvider>
 )
 
-const Main = () => {
-  const isRehydrated = useStoreRehydrated()
-
-  if (!isRehydrated) {
-    return null
-  }
-
-  return <MainNavigationStack />
-}
 export const App = () => {
   return (
     <AppProviders>
-      <Main />
+      <MainNavigationStack />
     </AppProviders>
   )
 }
