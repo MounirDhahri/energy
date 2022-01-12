@@ -1,14 +1,13 @@
 import { BottomTabNavigationOptions, createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
-import React, { useEffect } from "react"
-import { ArtistsScreen } from "@Scenes/Artists/Artists"
-import { ShowsScreen } from "@Scenes/Shows/Shows"
-import { AlbumsScreen } from "@Scenes/Albums/Albums"
-import { SelectPartner } from "@Scenes/SelectPartner/SelectPartner"
-import { useColor, useTheme } from "palette"
-import { GlobalStore } from "../store/GlobalStore"
 import { createStackNavigator } from "@react-navigation/stack"
+import { AlbumsScreen } from "@Scenes/Albums/Albums"
+import { ArtistsScreen } from "@Scenes/Artists/Artists"
+import { SelectPartner } from "@Scenes/SelectPartner/SelectPartner"
 import { SettingsScreen } from "@Scenes/Settings.tsx/Settings"
+import { ShowsScreen } from "@Scenes/Shows/Shows"
+import { useColor, useTheme } from "palette"
+import React from "react"
+import { GlobalStore } from "../store/GlobalStore"
 
 // tslint:disable-next-line:interface-over-type-literal
 export type TabNavigatorStack = {
@@ -26,7 +25,6 @@ export const TabNavigatorStack = () => {
   } = useTheme()
 
   return (
-    // <NavigationContainer independent>
     <Tab.Navigator
       screenOptions={({ route }) => {
         let routeSpecificOptions: BottomTabNavigationOptions = {}
@@ -64,7 +62,6 @@ export const TabNavigatorStack = () => {
       <Tab.Screen name="Shows" component={ShowsScreen} />
       <Tab.Screen name="Albums" component={AlbumsScreen} />
     </Tab.Navigator>
-    // </NavigationContainer>
   )
 }
 
