@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack"
 import { AlbumsScreen } from "@Scenes/Albums/Albums"
 import { ArtistsScreen } from "@Scenes/Artists/Artists"
 import { SelectPartner } from "@Scenes/SelectPartner/SelectPartner"
-import { SettingsScreen } from "@Scenes/Settings.tsx/Settings"
+import { SettingsScreenStack } from "@Scenes/Settings/Settings"
 import { ShowsScreen } from "@Scenes/Shows/Shows"
 import { useColor, useTheme } from "palette"
 import React from "react"
@@ -83,7 +83,11 @@ export const MainAuthenticatedStack = () => {
         component={TabNavigatorStack}
         options={{ headerShown: false }}
       />
-      <MainAuthenticatedStackNavigator.Screen name="Settings" component={SettingsScreen} />
+      <MainAuthenticatedStackNavigator.Screen
+        name="Settings"
+        component={SettingsScreenStack}
+        options={{ headerShown: false }}
+      />
     </MainAuthenticatedStackNavigator.Navigator>
   )
 }
