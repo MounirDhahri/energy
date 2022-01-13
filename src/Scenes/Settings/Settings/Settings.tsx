@@ -6,6 +6,7 @@ import { Button, Flex, Join, Separator } from "palette"
 import React from "react"
 import { Alert, Linking } from "react-native"
 import { SettingsScreenStack } from "../Settings"
+import { GlobalStore } from "../../../store/GlobalStore"
 
 interface SettingsScreenProps extends StackScreenProps<SettingsScreenStack, "Settings"> {}
 
@@ -19,6 +20,12 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
           title="Sync content"
           onPress={() => {
             Alert.alert("Not yet implement")
+          }}
+        />
+        <MenuItem
+          title="Change Partner"
+          onPress={() => {
+            GlobalStore.actions.setActivePartnerID(null)
           }}
         />
         <Separator mb={5} />
