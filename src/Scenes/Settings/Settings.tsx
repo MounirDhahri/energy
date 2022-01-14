@@ -1,7 +1,9 @@
 import { Webview } from "@helpers/components/WebView/WebView"
-import { NavigationContainer } from "@react-navigation/native"
-import { createStackNavigator, TransitionPresets } from "@react-navigation/stack"
-import React from "react"
+import { HeaderBackButton } from "@react-navigation/elements"
+import { NavigationContainer, NavigationContainerRef } from "@react-navigation/native"
+import { createStackNavigator, StackScreenProps, TransitionPresets } from "@react-navigation/stack"
+import { MainAuthenticatedStackProps } from "@routes/AuthenticatedNavigationStacks"
+import React, { useRef } from "react"
 import { SettingsScreen } from "./Settings/Settings"
 import { SettingsAboutScreen } from "./SettingsAbout/SettingsAbout"
 import { SettingsPrivacyDataRequestScreen } from "./SettingsPrivacyDataRequest/SettingsPrivacyDataRequest"
@@ -13,12 +15,33 @@ export type SettingsScreenStack = {
   Webview: { url: string; title: string }
 }
 
+interface SettingsScreenStackNavigatorProps extends StackScreenProps<MainAuthenticatedStackProps, "Settings"> {}
+
 export const SettingsScreenStackNavigator = createStackNavigator<SettingsScreenStack>()
 
-export const SettingsScreenStack = () => {
+export const SettingsScreenStack: React.FC<SettingsScreenStackNavigatorProps> = ({ navigation }) => {
+  const navContainerRef = useRef<NavigationContainerRef<SettingsScreenStack>>(null)
+
+  const onHeaderBackButtonPress = () => {
+    const currentRoute = navContainerRef.current?.getCurrentRoute()
+    const isFirstScreen = currentRoute?.name === "Settings"
+    console.log("called")
+
+    if (isFirstScreen) {
+      navigation?.goBack()
+      return
+    }
+
+    navContainerRef.current?.goBack()
+  }
+
   return (
-    <NavigationContainer independent>
-      <SettingsScreenStackNavigator.Navigator>
+    <NavigationContainer independent ref={navContainerRef}>
+      <SettingsScreenStackNavigator.Navigator
+        screenOptions={{
+          headerLeft: (props) => <HeaderBackButton {...props} onPress={() => onHeaderBackButtonPress()} />,
+        }}
+      >
         <SettingsScreenStackNavigator.Group>
           <SettingsScreenStackNavigator.Screen
             name="Settings"
