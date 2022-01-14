@@ -6,6 +6,7 @@ import { MainAuthenticatedStackProps } from "@routes/AuthenticatedNavigationStac
 import React, { useRef } from "react"
 import { SettingsScreen } from "./Settings/Settings"
 import { SettingsAboutScreen } from "./SettingsAbout/SettingsAbout"
+import { SettingsPresenterModeScreen } from "./SettingsPresenterMode/SettingsPresenterMode"
 import { SettingsPrivacyDataRequestScreen } from "./SettingsPrivacyDataRequest/SettingsPrivacyDataRequest"
 
 export type SettingsScreenStack = {
@@ -13,6 +14,7 @@ export type SettingsScreenStack = {
   SettingsPrivacyDataRequest: undefined
   SettingsAbout: undefined
   Webview: { url: string; title: string }
+  SettingsPresenterMode: undefined
 }
 
 interface SettingsScreenStackNavigatorProps extends StackScreenProps<MainAuthenticatedStackProps, "Settings"> {}
@@ -53,6 +55,11 @@ export const SettingsScreenStack: React.FC<SettingsScreenStackNavigatorProps> = 
             component={SettingsPrivacyDataRequestScreen}
           />
           <SettingsScreenStackNavigator.Screen name="SettingsAbout" component={SettingsAboutScreen} />
+          <SettingsScreenStackNavigator.Screen
+            name="SettingsPresenterMode"
+            options={{ title: "Presenter Mode" }}
+            component={SettingsPresenterModeScreen}
+          />
         </SettingsScreenStackNavigator.Group>
 
         <SettingsScreenStackNavigator.Group
