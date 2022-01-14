@@ -25,14 +25,26 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
         <MenuItem
           title="Change Partner"
           onPress={() => {
-            GlobalStore.actions.setActivePartnerID(null)
+            Alert.alert("Change Parnter", "Are you sure you want to change partner", [
+              {
+                text: "Cancel",
+                style: "cancel",
+              },
+              {
+                text: "Change partner",
+                style: "destructive",
+                onPress: () => {
+                  GlobalStore.actions.setActivePartnerID(null)
+                },
+              },
+            ])
           }}
         />
         <Separator mb={5} />
         <MenuItem
           title="Presentation Mode"
           onPress={() => {
-            // Navigate to presentation mode screen
+            navigation.navigate("SettingsPresenterMode")
           }}
         />
 
@@ -88,7 +100,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
                 text: "Log out",
                 style: "destructive",
                 onPress: () => {
-                  // GlobalStore.actions.auth.signOut()
+                  GlobalStore.actions.auth.signOut()
                 },
               },
             ])
