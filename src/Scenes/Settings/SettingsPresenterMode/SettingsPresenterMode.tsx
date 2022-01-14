@@ -40,7 +40,7 @@ export const SettingsPresenterModeScreen = () => {
             GlobalStore.actions.setActiveMode(activeMode)
           }}
           block
-          disabled={storeActiveMode !== activeMode}
+          disabled={storeActiveMode === activeMode}
         >
           Save
         </Button>

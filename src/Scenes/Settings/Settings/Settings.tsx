@@ -4,7 +4,7 @@ import { sendEmail } from "@helpers/utils/sendEmail"
 import { StackScreenProps } from "@react-navigation/stack"
 import { Button, Flex, Join, Separator } from "palette"
 import React from "react"
-import { Alert, Linking } from "react-native"
+import { Alert, Linking, ScrollView } from "react-native"
 import { SettingsScreenStack } from "../Settings"
 import { GlobalStore } from "../../../store/GlobalStore"
 
@@ -13,7 +13,7 @@ interface SettingsScreenProps extends StackScreenProps<SettingsScreenStack, "Set
 export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) => {
   const enableDarkMode = false
   return (
-    <Flex flex={1} backgroundColor="white">
+    <ScrollView contentContainerStyle={{ paddingBottom: 40, backgroundColor: "white" }}>
       {/* Reset The Relay  */}
       <Join separator={<Separator />}>
         <MenuItem
@@ -110,6 +110,6 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
           Log out
         </Button>
       </Flex>
-    </Flex>
+    </ScrollView>
   )
 }

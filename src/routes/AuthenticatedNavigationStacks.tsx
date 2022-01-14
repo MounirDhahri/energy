@@ -48,6 +48,7 @@ export type TabNavigatorStack = {
   Home: undefined
   Orders: undefined
   Profile: undefined
+  Settings: undefined
 }
 
 const Tab = createBottomTabNavigator<TabNavigatorStack>()
@@ -57,6 +58,8 @@ export const TabNavigatorStack = () => {
   const {
     theme: { fonts },
   } = useTheme()
+
+  const activeMode = GlobalStore.useAppState((state) => state.activeMode)
 
   const screenOptions: BottomTabNavigationOptions = {
     tabBarItemStyle: {
@@ -79,26 +82,32 @@ export const TabNavigatorStack = () => {
       }}
     >
       <Tab.Screen name="Home" component={HomeStack} options={{ headerShown: false }} />
-      <Tab.Screen name="Orders" component={OrdersScreen} />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={({ navigation }) => {
-          return {
-            headerRight: () => (
-              <Flex pr={1}>
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("Settings")
-                  }}
-                >
-                  <SettingsIcon />
-                </TouchableOpacity>
-              </Flex>
-            ),
-          }
-        }}
-      />
+      {activeMode === "manager" && <Tab.Screen name="Orders" component={OrdersScreen} />}
+
+      {activeMode === "manager" && (
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={({ navigation }) => {
+            return {
+              headerRight: () => (
+                <Flex pr={1}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("Settings")
+                    }}
+                  >
+                    <SettingsIcon />
+                  </TouchableOpacity>
+                </Flex>
+              ),
+            }
+          }}
+        />
+      )}
+      {activeMode === "viewer" && (
+        <Tab.Screen name="Settings" component={SettingsScreenStack} options={{ headerShown: false }} />
+      )}
     </Tab.Navigator>
   )
 }
