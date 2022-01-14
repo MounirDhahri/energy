@@ -2,6 +2,7 @@ import { LinkText } from "@helpers/components/LinkText"
 import { GlobalStore } from "@store/GlobalStore"
 import { Box, Button, Flex, Join, RadioButton, Sans, Separator, Spacer, Text } from "palette"
 import React, { useState } from "react"
+import { Alert } from "react-native"
 
 export const SettingsPresenterModeScreen = () => {
   const storeActiveMode = GlobalStore.useAppState((state) => state.activeMode)
@@ -37,7 +38,13 @@ export const SettingsPresenterModeScreen = () => {
       <Flex position="absolute" bottom={0} alignSelf="center" m={2}>
         <Button
           onPress={() => {
-            GlobalStore.actions.setActiveMode(activeMode)
+            if (activeMode === "viewer") {
+              GlobalStore.actions.setActiveMode(activeMode)
+              return
+            }
+            Alert.prompt("Manager Mode", "Please type in your password", () => {
+              GlobalStore.actions.setActiveMode(activeMode)
+            })
           }}
           block
           disabled={storeActiveMode === activeMode}
