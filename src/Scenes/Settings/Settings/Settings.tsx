@@ -40,7 +40,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
             ])
           }}
         />
-        <Separator mb={5} />
+        <Separator mb={3} />
         <MenuItem
           title="Presentation Mode"
           onPress={() => {
@@ -60,7 +60,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
           />
         </Flex>
 
-        <Separator mb={5} />
+        <Separator mb={3} />
 
         <MenuItem
           title="Support"
