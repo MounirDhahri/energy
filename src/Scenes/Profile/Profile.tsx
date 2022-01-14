@@ -3,10 +3,7 @@ import { TabNavigatorStack } from "@routes/AuthenticatedNavigationStacks"
 import { useNavigation } from "@react-navigation/native"
 import { StackNavigationProp } from "@react-navigation/stack"
 import { MainAuthenticatedStackProps } from "@routes/AuthenticatedNavigationStacks"
-import {
-  BarChart,
-  LineChart
-} from "react-native-chart-kit"
+import { BarChart, LineChart } from "react-native-chart-kit"
 import { Flex, Separator, SettingsIcon, Text, Touchable } from "palette"
 import { ActivityIndicator, ScrollView } from "react-native"
 import { useSafeAreaFrame } from "react-native-safe-area-context"
@@ -47,9 +44,13 @@ const TopWorks: React.FC = () => {
   const width = useSafeAreaFrame().width
   return (
     <Flex width={width} p={1}>
-      <Text mb={2} variant="md">Top works this week</Text>
+      <Text mb={2} variant="md">
+        Top works this week
+      </Text>
       <Flex flexDirection="row" justifyContent="space-between">
-        {artworks.map((artwork) => <ArtworkThumbnail artwork={artwork} />)}
+        {artworks.map((artwork) => (
+          <ArtworkThumbnail artwork={artwork} />
+        ))}
       </Flex>
     </Flex>
   )
@@ -58,21 +59,36 @@ const TopWorks: React.FC = () => {
 const Activity: React.FC = () => {
   const { width } = useSafeAreaFrame()
   const data = {
-      labels: ["Jul 15", "Jul 21", "Jul 28", "Aug 04", "Aug 11"],
-      datasets: [
-        {
-          data: [Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()],
-          colors: new Array(8).fill(() => `#e5e5e5`),
-        }
-      ]
-    }
+    labels: ["Jul 15", "Jul 21", "Jul 28", "Aug 04", "Aug 11"],
+    datasets: [
+      {
+        data: [
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+        ],
+        colors: new Array(8).fill(() => `#e5e5e5`),
+      },
+    ],
+  }
   return (
     <Flex width={width} p={1}>
-      <Text mb={2} variant="md">Activity</Text>
+      <Text mb={2} variant="md">
+        Activity
+      </Text>
       <Flex>
         <Text variant="lg">10,000</Text>
-        <Text variant="xs" color="black60">Total views</Text>
-        <Text color="green100" variant="xs">+61% from prev. period</Text>
+        <Text variant="xs" color="black60">
+          Total views
+        </Text>
+        <Text color="green100" variant="xs">
+          +61% from prev. period
+        </Text>
       </Flex>
       <BarChart
         data={data}
@@ -107,20 +123,33 @@ const Activity: React.FC = () => {
 const Sales: React.FC = () => {
   const { width } = useSafeAreaFrame()
   const data = {
-      labels: ["Jul 15", "Jul 21", "Jul 28", "Aug 04", "Aug 11"],
-      datasets: [
-        {
-          data: [Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random(), Math.random()],
-          colors: new Array(8).fill(() => `#e5e5e5`),
-        }
-      ]
-    }
+    labels: ["Jul 15", "Jul 21", "Jul 28", "Aug 04", "Aug 11"],
+    datasets: [
+      {
+        data: [
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+          Math.random(),
+        ],
+        colors: new Array(8).fill(() => `#e5e5e5`),
+      },
+    ],
+  }
   return (
     <Flex width={width} p={1}>
-      <Text mb={2} variant="md">Sales</Text>
+      <Text mb={2} variant="md">
+        Sales
+      </Text>
       <Flex>
         <Text variant="lg">$5,150</Text>
-        <Text variant="xs" color="black60">Total sales from Buy Now / Make Offer</Text>
+        <Text variant="xs" color="black60">
+          Total sales from Buy Now / Make Offer
+        </Text>
       </Flex>
       <LineChart
         data={data}
@@ -155,9 +184,9 @@ const Sales: React.FC = () => {
 
 export const Profile: React.FC = () => {
   return (
-    <ScrollView style={{backgroundColor: "white"}}>
+    <ScrollView style={{ backgroundColor: "white" }}>
       <Flex flex={1} justifyContent="flex-start" alignItems="center" bg="white" p={1}>
-        <TopWorks/>
+        <TopWorks />
         <Separator my={2} />
         <Activity />
         <Separator my={2} />
@@ -179,11 +208,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = () => {
         </Flex>
       )}
     >
-      <Flex flexDirection="row" bg="white" alignContent="flex-end" justifyContent="flex-end">
-        <Touchable onPress={() => navigation.navigate("Settings")}>
-          <SettingsIcon p={1} m={1} />
-        </Touchable>
-      </Flex>
       <Profile />
     </React.Suspense>
   )
