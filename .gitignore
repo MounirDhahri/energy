@@ -61,7 +61,6 @@ buck-out/
 
 # Fonts
 android/app/src/main/assets/fonts/*
-ios/Assets/Fonts/*
 
 # Ignore env files
 **/.env*
