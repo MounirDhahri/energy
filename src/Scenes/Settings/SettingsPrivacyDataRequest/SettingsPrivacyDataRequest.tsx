@@ -1,8 +1,14 @@
 import { LinkText } from "@helpers/components/LinkText"
-import { Box, Button, Flex, Join, Sans, Separator, Spacer } from "palette"
+import { sendEmail } from "@helpers/utils/sendEmail"
+import { StackScreenProps } from "@react-navigation/stack"
+import { Box, Button, Flex, Join, Sans, Spacer } from "palette"
 import React from "react"
+import { SettingsScreenStack } from "../Settings"
 
-export const SettingsPrivacyDataRequestScreen = () => {
+interface SettingsPrivacyDataRequestScreenProps
+  extends StackScreenProps<SettingsScreenStack, "SettingsPrivacyDataRequest"> {}
+
+export const SettingsPrivacyDataRequestScreen: React.FC<SettingsPrivacyDataRequestScreenProps> = ({ navigation }) => {
   return (
     <Flex flex={1} backgroundColor="white">
       <Spacer my={1} />
@@ -12,7 +18,7 @@ export const SettingsPrivacyDataRequestScreen = () => {
             Please see Artsy’s{" "}
             <LinkText
               onPress={() => {
-                // navigate to privacy policy in a modal
+                navigation.navigate("Webview", { url: "/privacy", title: "Privacy Policy" })
               }}
             >
               Privacy Policy
@@ -23,7 +29,7 @@ export const SettingsPrivacyDataRequestScreen = () => {
             To submit a personal data request tap the button below or email{" "}
             <LinkText
               onPress={() => {
-                // presentEmailComposer("privacy@artsy.net", "Personal Data Request")
+                sendEmail({ toAddress: "privacy@artsy.net", subject: "Personal Data Request" })
               }}
             >
               privacy@artsy.net.
@@ -35,11 +41,11 @@ export const SettingsPrivacyDataRequestScreen = () => {
             size="large"
             mt={1}
             onPress={() => {
-              // presentEmailComposer(
-              //   "privacy@artsy.net",
-              //   "Personal Data Request",
-              //   "Hello, I'm contacting you to ask that..."
-              // )
+              sendEmail({
+                toAddress: "privacy@artsy.net",
+                subject: "Personal Data Request",
+                body: "Hello, I'm contacting you to ask that...",
+              })
             }}
           >
             Do not sell my personal information

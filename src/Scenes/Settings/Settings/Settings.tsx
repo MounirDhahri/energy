@@ -83,7 +83,7 @@ export const SettingsScreen: React.FC<SettingsScreenProps> = ({ navigation }) =>
         <MenuItem
           title="About"
           onPress={() => {
-            // navigation.navigate("SettingsAbout")
+            navigation.navigate("SettingsAbout")
           }}
         />
       </Join>
